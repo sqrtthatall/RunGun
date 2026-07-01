@@ -14,14 +14,28 @@ public class Movement : MonoBehaviour
     private bool isGrounded;
     public static int attempts = 0;
 
+    public Animator anim;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
+
+        anim.SetFloat("moveX", Mathf.Abs(Input.GetAxisRaw("Horizontal")));
+
+        if (isGrounded)
+        {
+            anim.SetBool("isJumping", false);
+        }
+        else
+        {
+            anim.SetBool("isJumping", true);
+        }
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
