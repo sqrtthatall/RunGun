@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 52937781e3c625840af172c2dcabc6e7
+guid: e20db2658b986454ba5f51fb37f1a494
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6562908132810711052
-    second: kent_jump2_0
+      213: 4398269892021207305
+    second: Floor_test_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: kent_jump2_0
+      name: Floor_test_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 136
-        height: 203
+        x: 6
+        y: 18
+        width: 78
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ff9b4233dddbe4a0800000000000000
-      internalID: -6562908132810711052
+      spriteID: 901483ce92bc90d30800000000000000
+      internalID: 4398269892021207305
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      kent_jump2_0: -6562908132810711052
+      Floor_test_0: 4398269892021207305
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

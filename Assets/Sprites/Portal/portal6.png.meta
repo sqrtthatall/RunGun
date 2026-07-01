@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 88e21e13751ae824f8f8779f9b439156
+guid: d3b9c00a699832b468b496c79cf2b591
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5227474827787558040
-    second: kent_jump3_0
+      213: -208124503582259321
+    second: portal6_0
+  - first:
+      213: 2012996552167957331
+    second: portal6_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: kent_jump3_0
+      name: portal6_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 136
-        height: 203
+        x: 26
+        y: 139
+        width: 15
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +131,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 89cd296d8a8bb8840800000000000000
-      internalID: 5227474827787558040
+      spriteID: 787cceeddd79c1df0800000000000000
+      internalID: -208124503582259321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: portal6_1
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 4
+        width: 172
+        height: 287
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 353ae0ae2b99feb10800000000000000
+      internalID: 2012996552167957331
       vertices: []
       indices: 
       edges: []
@@ -148,7 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      kent_jump3_0: 5227474827787558040
+      portal6_0: -208124503582259321
+      portal6_1: 2012996552167957331
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

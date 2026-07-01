@@ -5,16 +5,20 @@ public class Movement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     // Update is called once per frame
-    public float maxForce = 15f;
-    public float jumpForce = 10f;
+    public float maxForce = 5f;
+    public float jumpForce = 5f;
 
     private Rigidbody2D rb;
     private float horizontalInput;
 
     private bool isGrounded;
+    private bool isFacingRight = true;
+
     public static int attempts = 0;
 
     public Animator anim;
+
+
 
     void Start()
     {
@@ -26,7 +30,18 @@ public class Movement : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");
 
+
         anim.SetFloat("moveX", Mathf.Abs(Input.GetAxisRaw("Horizontal")));
+
+        if (horizontalInput > 0 && !isFacingRight)
+        {
+            Flip();
+        }
+
+        else if (horizontalInput < 0 && isFacingRight)
+        {
+            Flip();
+        }
 
         if (isGrounded)
         {
@@ -74,6 +89,15 @@ public class Movement : MonoBehaviour
             SceneManager.LoadScene(activeScene.name);
             
         }
+    }
+
+    void Flip()
+    {
+        isFacingRight = !isFacingRight;
+
+        Vector3 scaler = transform.localScale;
+        scaler.x *= -1;
+        transform.localScale = scaler;
     }
 
 }
