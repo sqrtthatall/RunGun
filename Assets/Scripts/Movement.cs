@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+
 public class Movement : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     // Update is called once per frame
-    public float maxForce = 5f;
+    public float maxForce = 4f;
     public float jumpForce = 5f;
 
     private Rigidbody2D rb;
@@ -13,6 +15,8 @@ public class Movement : MonoBehaviour
 
     private bool isGrounded;
     private bool isFacingRight = true;
+    //private bool isSpriting = false;
+
 
     public static int attempts = 0;
 
@@ -57,6 +61,27 @@ public class Movement : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             isGrounded = false;
         }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            maxForce = 7f;
+        }
+
+        else
+        {
+            maxForce = 4f;
+        }
+
+        if (maxForce < 7)
+        {
+            anim.SetBool("isRunning", false);
+        }
+        else 
+        {
+            anim.SetBool("isRunning", true);
+        }
+
+
         isItOnTheLevel();
     }
 
@@ -99,5 +124,4 @@ public class Movement : MonoBehaviour
         scaler.x *= -1;
         transform.localScale = scaler;
     }
-
 }
