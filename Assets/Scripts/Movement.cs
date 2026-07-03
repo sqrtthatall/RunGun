@@ -35,7 +35,7 @@ public class Movement : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
 
 
-        anim.SetFloat("moveX", Mathf.Abs(Input.GetAxisRaw("Horizontal")));
+        anim.SetFloat("moveX", Mathf.Abs(horizontalInput));
 
         if (horizontalInput > 0 && !isFacingRight)
         {
@@ -47,15 +47,11 @@ public class Movement : MonoBehaviour
             Flip();
         }
 
-        if (isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            anim.SetBool("isJumping", false);
+            anim.SetTrigger("isJumping");
         }
-        else
-        {
-            anim.SetBool("isJumping", true);
-        }
-
+            
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
