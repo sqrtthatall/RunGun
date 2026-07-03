@@ -12,8 +12,11 @@ public class FinishScript : MonoBehaviour
             LoadNextLevel();
         }
     }
+
+
     void LoadNextLevel()
     {
         SceneManager.LoadScene(nextLevelName);
     }
+
 }

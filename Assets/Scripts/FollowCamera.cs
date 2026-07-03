@@ -15,10 +15,6 @@ public class CameraFollow : MonoBehaviour
             {
                 player = playerObject.transform;
             }
-            else
-            {
-                Debug.LogError("");
-            }
         }
     }
 

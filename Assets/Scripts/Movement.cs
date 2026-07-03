@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,12 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     public float maxForce = 4f;
     public float jumpForce = 5f;
+    public int maxHealth = 100;
+
+
+    public static int coins = 0;
+    public static System.Collections.Generic.List<string> collectedCoins = new System.Collections.Generic.List<string>();
+    //public int maxArmor = 50;
 
     private Rigidbody2D rb;
     private float horizontalInput;
@@ -17,10 +24,10 @@ public class Movement : MonoBehaviour
     private bool isFacingRight = true;
     //private bool isSpriting = false;
 
-
     public static int attempts = 0;
 
     public Animator anim;
+
 
 
 
@@ -35,7 +42,7 @@ public class Movement : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
 
 
-        anim.SetFloat("moveX", Mathf.Abs(Input.GetAxisRaw("Horizontal")));
+        anim.SetFloat("moveX", Mathf.Abs(horizontalInput));
 
         if (horizontalInput > 0 && !isFacingRight)
         {
@@ -66,7 +73,6 @@ public class Movement : MonoBehaviour
         {
             maxForce = 7f;
         }
-
         else
         {
             maxForce = 4f;
@@ -109,10 +115,9 @@ public class Movement : MonoBehaviour
         if (transform.position.y < -10)
         {
             attempts++;
-            Debug.Log("Peyzda Try number" + attempts);
+            Debug.Log("Try number" + attempts);
             Scene activeScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(activeScene.name);
-            
         }
     }
 
@@ -124,4 +129,28 @@ public class Movement : MonoBehaviour
         scaler.x *= -1;
         transform.localScale = scaler;
     }
+
+    public static void AddCoin()
+    {
+        coins++;
+    }
+
+    public static int GetCoinsValue()
+    {
+        return coins;
+    }
+
+    public static int GetAttemptsValue()
+    {
+        return attempts;
+    }
+
+    public static void RegisterCollectedCoin(string coinName)
+    {
+        if (!collectedCoins.Contains(coinName))
+        {
+            collectedCoins.Add(coinName);
+        }
+    }
+
 }
