@@ -54,15 +54,11 @@ public class Movement : MonoBehaviour
             Flip();
         }
 
-        if (isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            anim.SetBool("isJumping", false);
+            anim.SetTrigger("isJumping");
         }
-        else
-        {
-            anim.SetBool("isJumping", true);
-        }
-
+            
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
