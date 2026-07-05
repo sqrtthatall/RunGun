@@ -8,15 +8,17 @@ public class Movement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     // Update is called once per frame
-    public float maxForce = 4f;
-    public float jumpForce = 5f;
-    public int maxHealth = 100;
+    private float maxForce = 4f;
+    private float jumpForce = 5f;
 
-
+    //GUI needs it
+    public static int maxHealth = 100;
     public static int coins = 0;
     public static System.Collections.Generic.List<string> collectedCoins = new System.Collections.Generic.List<string>();
-    //public int maxArmor = 50;
+    public static int maxArmor = 50;
+    public static int attempts = 0;
 
+    //Animation needs it
     private Rigidbody2D rb;
     private float horizontalInput;
 
@@ -24,11 +26,9 @@ public class Movement : MonoBehaviour
     private bool isFacingRight = true;
     //private bool isSpriting = false;
 
-    public static int attempts = 0;
+
 
     public Animator anim;
-
-
 
 
     void Start()
@@ -83,8 +83,9 @@ public class Movement : MonoBehaviour
             anim.SetBool("isRunning", true);
         }
 
-
-        isItOnTheLevel();
+        //Условия перезапуска (смерть/падение итд если будет)
+        ReloadSceneBecauseDie();
+        ReloadSceneBecauseFalling();
     }
 
     void FixedUpdate()
@@ -106,7 +107,8 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void isItOnTheLevel()
+
+    private void ReloadSceneBecauseFalling()
     {
         if (transform.position.y < -10)
         {
@@ -117,10 +119,21 @@ public class Movement : MonoBehaviour
         }
     }
 
+    private void ReloadSceneBecauseDie()
+    {
+        if (maxHealth <= 0)
+        {
+            attempts++;
+            maxHealth = 100;
+            Debug.Log("Try number" + attempts);
+            Scene activeScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(activeScene.name);
+        }
+    }
+
     void Flip()
     {
         isFacingRight = !isFacingRight;
-
         Vector3 scaler = transform.localScale;
         scaler.x *= -1;
         transform.localScale = scaler;
@@ -148,5 +161,31 @@ public class Movement : MonoBehaviour
             collectedCoins.Add(coinName);
         }
     }
+
+    public static void Damage(int Damage)
+    {
+        if (maxArmor <= 0)
+        {
+            maxHealth -= Damage;
+        }
+        else
+        {
+            maxArmor -= Damage;
+        }
+        
+    }
+    public static void Heal(int Heal)
+    {
+        if (maxHealth < 100)
+        {
+            maxHealth += Heal;
+        }
+        else
+        {
+            Debug.Log("100 is a max");
+        }
+        
+    }
+
 
 }
