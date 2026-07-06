@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Floor
   - Portal
+  - FunnyFloor
   layers:
   - Default
   - TransparentFX
