@@ -14,7 +14,10 @@ public class Movement : MonoBehaviour
     //GUI needs it
     public static int Health = 100;
     public static int coins = 0;
+
     public static System.Collections.Generic.List<string> collectedCoins = new System.Collections.Generic.List<string>();
+    public static System.Collections.Generic.List<string> collectedBandages = new System.Collections.Generic.List<string>();
+
     public static int Armor = 50;
     public static int attempts = 0;
 
@@ -162,6 +165,14 @@ public class Movement : MonoBehaviour
         }
     }
 
+    public static void RegisterCollectedBandage(string bandageName)
+    {
+        if (!collectedBandages.Contains(bandageName))
+        {
+            collectedBandages.Add(bandageName);
+        }
+    }
+
     public static void Damage(int Damage)
     {
         if (Armor <= 0)
@@ -184,7 +195,10 @@ public class Movement : MonoBehaviour
         {
             Debug.Log("100 is a max");
         }
-        
+        if (Health >= 100)
+        {
+            Health = 100;
+        }
     }
 
 
