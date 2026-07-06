@@ -11,7 +11,7 @@ public class SpikeGiveDamageSystem : MonoBehaviour
         if (colision.CompareTag("Player"))
         {
             Movement.Damage(spikeDamage);
-            Debug.Log(Movement.maxHealth);
+            Debug.Log(Movement.Health);
         }
     }
 

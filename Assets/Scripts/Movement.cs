@@ -12,10 +12,10 @@ public class Movement : MonoBehaviour
     private float jumpForce = 5f;
 
     //GUI needs it
-    public static int maxHealth = 100;
+    public static int Health = 100;
     public static int coins = 0;
     public static System.Collections.Generic.List<string> collectedCoins = new System.Collections.Generic.List<string>();
-    public static int maxArmor = 50;
+    public static int Armor = 50;
     public static int attempts = 0;
 
     //Animation needs it
@@ -121,10 +121,10 @@ public class Movement : MonoBehaviour
 
     private void ReloadSceneBecauseDie()
     {
-        if (maxHealth <= 0)
+        if (Health <= 0)
         {
             attempts++;
-            maxHealth = 100;
+            Health = 100;
             Debug.Log("Try number" + attempts);
             Scene activeScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(activeScene.name);
@@ -164,21 +164,21 @@ public class Movement : MonoBehaviour
 
     public static void Damage(int Damage)
     {
-        if (maxArmor <= 0)
+        if (Armor <= 0)
         {
-            maxHealth -= Damage;
+            Health -= Damage;
         }
         else
         {
-            maxArmor -= Damage;
+            Armor -= Damage;
         }
         
     }
     public static void Heal(int Heal)
     {
-        if (maxHealth < 100)
+        if (Health < 100)
         {
-            maxHealth += Heal;
+            Health += Heal;
         }
         else
         {
