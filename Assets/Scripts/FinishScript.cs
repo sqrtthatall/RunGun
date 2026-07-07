@@ -4,6 +4,7 @@ public class FinishScript : MonoBehaviour
 {
     public string nextLevelName;
 
+
     private void OnTriggerEnter2D(Collider2D colision)
     {
         if (colision.CompareTag("Player"))

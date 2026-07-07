@@ -33,6 +33,15 @@ public class Movement : MonoBehaviour
 
     public Animator anim;
 
+    public AudioSource coinTakeAudio;
+    public AudioSource bandageTakeAudio;
+
+    public static Movement Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -142,8 +151,14 @@ public class Movement : MonoBehaviour
         transform.localScale = scaler;
     }
 
+    public void CoinTakeAudio()
+    {
+        coinTakeAudio.Play();
+    }
+
     public static void AddCoin()
     {
+        Movement.Instance.CoinTakeAudio();
         coins++;
     }
 
@@ -187,6 +202,7 @@ public class Movement : MonoBehaviour
     }
     public static void Heal(int Heal)
     {
+        Movement.Instance.bandageTakeAudio.Play();
         if (Health < 100)
         {
             Health += Heal;

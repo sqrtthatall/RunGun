@@ -16,7 +16,6 @@ public class CoinLogic : MonoBehaviour
         if (colision.CompareTag("Player"))
         {
             Movement.RegisterCollectedCoin(gameObject.name);
-
             Movement.AddCoin();
             Destroy(gameObject);
             Debug.Log("Coin Added! " + Movement.GetCoinsValue().ToString());
