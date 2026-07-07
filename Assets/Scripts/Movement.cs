@@ -27,9 +27,6 @@ public class Movement : MonoBehaviour
 
     private bool isGrounded;
     private bool isFacingRight = true;
-    //private bool isSpriting = false;
-
-
 
     public Animator anim;
 

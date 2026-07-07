@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1cad70f4cf0ad4a9f96ce6cb6dd5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpikeGiveDamageSystem
-  spikeDamage: 10
+  spikeDamage: 30
 --- !u!58 &2715745687656248145
 CircleCollider2D:
   m_ObjectHideFlags: 0

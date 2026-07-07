@@ -50,6 +50,4 @@ public class VolumeIconControlerUI : MonoBehaviour
             volumeSlider.onValueChanged.RemoveListener(UpdateVolumeIcon);
         }
     }
-
-
 }

@@ -35,6 +35,8 @@ public class WorkingWithMusicScript : MonoBehaviour
         if (musicSource != null)
         {
             musicSource.volume = MusicVolume;
+            PlayerPrefs.SetFloat("MusicVolume", volume);
+            PlayerPrefs.Save();
         }
     }
 
