@@ -11,10 +11,8 @@ public class NetworkManager : MonoBehaviour
 
     [SerializeField] private string baseUrl = "http://localhost:5000";
 
-    // Сохраняем имя авторизованного игрока
     public string CurrentUsername { get; private set; }
 
-    // DTO под монеты и смерти
     [Serializable] public class AuthRequest { public string username; public string password; }
     [Serializable] public class StatsRequest { public string username; public int coins_earned; public int deaths_count; }
 
@@ -67,7 +65,7 @@ public class NetworkManager : MonoBehaviour
         StartCoroutine(LoginCoroutine(user, pass, onSuccess, onError));
     }
 
-    // Отправка прогресса: сколько собрано монет и сколько смертей за раунд
+    // Отправка прогресса
     public void SendProgress(int coinsEarned, int deathsCount, Action onSuccess = null, Action<string> onError = null)
     {
         if (string.IsNullOrEmpty(CurrentUsername))
@@ -85,7 +83,6 @@ public class NetworkManager : MonoBehaviour
         StartCoroutine(GetLeaderboardCoroutine(onSuccess, onError));
     }
 
-    // --- Корутины ---
 
     private IEnumerator RegisterCoroutine(string user, string pass, Action onSuccess, Action<string> onError)
     {
