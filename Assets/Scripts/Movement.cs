@@ -2,16 +2,12 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class Movement : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
-    // Update is called once per frame
     private float maxForce = 4f;
     private float jumpForce = 5f;
 
-    //GUI needs it
+    // GUI needs it
     public static int Health = 100;
     public static int coins = 0;
 
@@ -21,7 +17,7 @@ public class Movement : MonoBehaviour
     public static int Armor = 50;
     public static int attempts = 0;
 
-    //Animation needs it
+    // Animation needs it
     private Rigidbody2D rb;
     private float horizontalInput;
 
@@ -50,14 +46,12 @@ public class Movement : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");
 
-
         anim.SetFloat("moveX", Mathf.Abs(horizontalInput));
 
         if (horizontalInput > 0 && !isFacingRight)
         {
             Flip();
         }
-
         else if (horizontalInput < 0 && isFacingRight)
         {
             Flip();
@@ -66,10 +60,6 @@ public class Movement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             anim.SetTrigger("isJumping");
-        }
-            
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             isGrounded = false;
         }
@@ -77,22 +67,14 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             maxForce = 7f;
+            anim.SetBool("isRunning", true);
         }
         else
         {
             maxForce = 4f;
-        }
-
-        if (maxForce < 7)
-        {
             anim.SetBool("isRunning", false);
         }
-        else 
-        {
-            anim.SetBool("isRunning", true);
-        }
 
-        //Условия перезапуска (смерть/падение итд если будет)
         ReloadSceneBecauseDie();
         ReloadSceneBecauseFalling();
     }
@@ -104,7 +86,6 @@ public class Movement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
         if (collision.gameObject.tag == "Floor")
         {
             Vector2 contactPoint = collision.GetContact(0).point;
@@ -116,13 +97,19 @@ public class Movement : MonoBehaviour
         }
     }
 
-
     private void ReloadSceneBecauseFalling()
     {
         if (transform.position.y < -10)
         {
             attempts++;
             Debug.Log("Try number" + attempts);
+
+            // Отправляем смерть на сервер (0 монет, 1 смерть)
+            if (NetworkManager.Instance != null)
+            {
+                NetworkManager.Instance.SendProgress(0, 1);
+            }
+
             Scene activeScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(activeScene.name);
         }
@@ -135,6 +122,13 @@ public class Movement : MonoBehaviour
             attempts++;
             Health = 100;
             Debug.Log("Try number" + attempts);
+
+            // Отправляем смерть на сервер (0 монет, 1 смерть)
+            if (NetworkManager.Instance != null)
+            {
+                NetworkManager.Instance.SendProgress(0, 1);
+            }
+
             Scene activeScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(activeScene.name);
         }
@@ -150,24 +144,24 @@ public class Movement : MonoBehaviour
 
     public void CoinTakeAudio()
     {
-        coinTakeAudio.Play();
+        if (coinTakeAudio != null)
+            coinTakeAudio.Play();
     }
 
     public static void AddCoin()
     {
         Movement.Instance.CoinTakeAudio();
         coins++;
+
+        // Сразу синхронизируем +1 монетку с БД (1 монета, 0 смертей)
+        if (NetworkManager.Instance != null)
+        {
+            NetworkManager.Instance.SendProgress(1, 0);
+        }
     }
 
-    public static int GetCoinsValue()
-    {
-        return coins;
-    }
-
-    public static int GetAttemptsValue()
-    {
-        return attempts;
-    }
+    public static int GetCoinsValue() => coins;
+    public static int GetAttemptsValue() => attempts;
 
     public static void RegisterCollectedCoin(string coinName)
     {
@@ -185,34 +179,27 @@ public class Movement : MonoBehaviour
         }
     }
 
-    public static void Damage(int Damage)
+    public static void Damage(int damageValue)
     {
         if (Armor <= 0)
         {
-            Health -= Damage;
+            Health -= damageValue;
         }
         else
         {
-            Armor -= Damage;
+            Armor -= damageValue;
         }
-        
     }
-    public static void Heal(int Heal)
+
+    public static void Heal(int healValue)
     {
-        Movement.Instance.bandageTakeAudio.Play();
+        if (Movement.Instance.bandageTakeAudio != null)
+            Movement.Instance.bandageTakeAudio.Play();
+
         if (Health < 100)
         {
-            Health += Heal;
-        }
-        else
-        {
-            Debug.Log("100 is a max");
-        }
-        if (Health >= 100)
-        {
-            Health = 100;
+            Health += healValue;
+            if (Health > 100) Health = 100;
         }
     }
-
-
 }
