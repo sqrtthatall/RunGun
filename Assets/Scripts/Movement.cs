@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,25 +7,22 @@ public class Movement : MonoBehaviour
     private float maxForce = 4f;
     private float jumpForce = 5f;
 
-    // GUI needs it
+    // UI и данные сессии
     public static int Health = 100;
     public static int coins = 0;
-
-    public static System.Collections.Generic.List<string> collectedCoins = new System.Collections.Generic.List<string>();
-    public static System.Collections.Generic.List<string> collectedBandages = new System.Collections.Generic.List<string>();
-
     public static int Armor = 50;
     public static int attempts = 0;
 
-    // Animation needs it
+    public static List<string> collectedCoins = new List<string>();
+    public static List<string> collectedBandages = new List<string>();
+
+    // Компоненты и анимации
     private Rigidbody2D rb;
     private float horizontalInput;
-
     private bool isGrounded;
     private bool isFacingRight = true;
 
     public Animator anim;
-
     public AudioSource coinTakeAudio;
     public AudioSource bandageTakeAudio;
 
@@ -41,19 +38,11 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
 
-    // ВРЕМЕННЫЙ ТЕСТ: автовход игроком tester
-        if (NetworkManager.Instance != null && string.IsNullOrEmpty(NetworkManager.Instance.CurrentUsername))
+        // Загружаем сохраненный баланс и смерти игрока из сети
+        if (NetworkManager.Instance != null && !string.IsNullOrEmpty(NetworkManager.Instance.CurrentUsername))
         {
-            NetworkManager.Instance.Register("tester", "12345", () => {
-                NetworkManager.Instance.Login("tester", "12345", res => {
-                    Debug.Log($"Тест сети: Успешный вход! Монеты в базе: {res.coins}, Смерти: {res.deaths}");
-                });
-            }, err => {
-                // Если уже зарегистрирован — сразу входим
-                NetworkManager.Instance.Login("tester", "12345", res => {
-                    Debug.Log($"Тест сети: Успешный вход! Монеты в базе: {res.coins}, Смерти: {res.deaths}");
-                });
-            });
+            coins = NetworkManager.Instance.UserCoins;
+            attempts = NetworkManager.Instance.UserDeaths;
         }
     }
 
@@ -101,10 +90,9 @@ public class Movement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.CompareTag("Floor"))
         {
             Vector2 contactPoint = collision.GetContact(0).point;
-
             if (contactPoint.y < transform.position.y)
             {
                 isGrounded = true;
@@ -116,17 +104,7 @@ public class Movement : MonoBehaviour
     {
         if (transform.position.y < -10)
         {
-            attempts++;
-            Debug.Log("Try number" + attempts);
-
-            // Отправляем смерть на сервер (0 монет, 1 смерть)
-            if (NetworkManager.Instance != null)
-            {
-                NetworkManager.Instance.SendProgress(0, 1);
-            }
-
-            Scene activeScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(activeScene.name);
+            HandleDeath();
         }
     }
 
@@ -134,19 +112,24 @@ public class Movement : MonoBehaviour
     {
         if (Health <= 0)
         {
-            attempts++;
             Health = 100;
-            Debug.Log("Try number" + attempts);
-
-            // Отправляем смерть на сервер (0 монет, 1 смерть)
-            if (NetworkManager.Instance != null)
-            {
-                NetworkManager.Instance.SendProgress(0, 1);
-            }
-
-            Scene activeScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(activeScene.name);
+            HandleDeath();
         }
+    }
+
+    private void HandleDeath()
+    {
+        attempts++;
+        Debug.Log("Try number: " + attempts);
+
+        // Отправляем +1 смерть на сервер
+        if (NetworkManager.Instance != null)
+        {
+            NetworkManager.Instance.SendProgress(0, 1);
+        }
+
+        Scene activeScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(activeScene.name);
     }
 
     void Flip()
@@ -168,7 +151,7 @@ public class Movement : MonoBehaviour
         Movement.Instance.CoinTakeAudio();
         coins++;
 
-        // Сразу синхронизируем +1 монетку с БД (1 монета, 0 смертей)
+        // Отправляем +1 монету на сервер
         if (NetworkManager.Instance != null)
         {
             NetworkManager.Instance.SendProgress(1, 0);
@@ -211,10 +194,6 @@ public class Movement : MonoBehaviour
         if (Movement.Instance.bandageTakeAudio != null)
             Movement.Instance.bandageTakeAudio.Play();
 
-        if (Health < 100)
-        {
-            Health += healValue;
-            if (Health > 100) Health = 100;
-        }
+        Health = Mathf.Min(100, Health + healValue);
     }
 }

@@ -11,33 +11,45 @@ public class NetworkManager : MonoBehaviour
 
     [SerializeField] private string baseUrl = "http://localhost:5000";
 
+    // Текущий профиль игрока в памяти
     public string CurrentUsername { get; private set; }
+    public int UserCoins { get; set; }
+    public int UserDeaths { get; set; }
 
+    // DTO модели
     [Serializable] public class AuthRequest { public string username; public string password; }
     [Serializable] public class StatsRequest { public string username; public int coins_earned; public int deaths_count; }
 
-    [Serializable] 
-    public class LoginResponse 
-    { 
-        public string status; 
-        public int coins; 
-        public int deaths; 
-        public string message; 
+    [Serializable]
+    public class LoginResponse
+    {
+        public string status;
+        public int coins;
+        public int deaths;
+        public string message;
     }
 
-    [Serializable] 
-    public class LeaderboardEntry 
-    { 
-        public string username; 
-        public int coins; 
-        public int deaths; 
+    [Serializable]
+    public class StatsUpdateResponse
+    {
+        public string status;
+        public int total_coins;
+        public int total_deaths;
     }
 
-    [Serializable] 
-    public class LeaderboardResponse 
-    { 
-        public string status; 
-        public List<LeaderboardEntry> leaderboard; 
+    [Serializable]
+    public class LeaderboardEntry
+    {
+        public string username;
+        public int coins;
+        public int deaths;
+    }
+
+    [Serializable]
+    public class LeaderboardResponse
+    {
+        public string status;
+        public List<LeaderboardEntry> leaderboard;
     }
 
     private void Awake()
@@ -53,19 +65,16 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    // Регистрация
     public void Register(string user, string pass, Action onSuccess = null, Action<string> onError = null)
     {
         StartCoroutine(RegisterCoroutine(user, pass, onSuccess, onError));
     }
 
-    // Вход
     public void Login(string user, string pass, Action<LoginResponse> onSuccess = null, Action<string> onError = null)
     {
         StartCoroutine(LoginCoroutine(user, pass, onSuccess, onError));
     }
 
-    // Отправка прогресса
     public void SendProgress(int coinsEarned, int deathsCount, Action onSuccess = null, Action<string> onError = null)
     {
         if (string.IsNullOrEmpty(CurrentUsername))
@@ -74,15 +83,18 @@ public class NetworkManager : MonoBehaviour
             onError?.Invoke("Not logged in");
             return;
         }
+
+        // Локально обновляем баланс сразу, не дожидаясь ответа сервера
+        UserCoins += coinsEarned;
+        UserDeaths += deathsCount;
+
         StartCoroutine(SendProgressCoroutine(CurrentUsername, coinsEarned, deathsCount, onSuccess, onError));
     }
 
-    // Запрос лидерборда
     public void GetLeaderboard(Action<List<LeaderboardEntry>> onSuccess = null, Action<string> onError = null)
     {
         StartCoroutine(GetLeaderboardCoroutine(onSuccess, onError));
     }
-
 
     private IEnumerator RegisterCoroutine(string user, string pass, Action onSuccess, Action<string> onError)
     {
@@ -117,7 +129,10 @@ public class NetworkManager : MonoBehaviour
                 if (res.status == "success")
                 {
                     CurrentUsername = user;
-                    Debug.Log($"Logged in as {user}. Coins: {res.coins}, Deaths: {res.deaths}");
+                    UserCoins = res.coins;
+                    UserDeaths = res.deaths;
+
+                    Debug.Log($"Logged in: {user} | Coins: {UserCoins} | Deaths: {UserDeaths}");
                     onSuccess?.Invoke(res);
                 }
                 else
@@ -136,11 +151,11 @@ public class NetworkManager : MonoBehaviour
 
     private IEnumerator SendProgressCoroutine(string user, int coins, int deaths, Action onSuccess, Action<string> onError)
     {
-        string json = JsonUtility.ToJson(new StatsRequest 
-        { 
-            username = user, 
-            coins_earned = coins, 
-            deaths_count = deaths 
+        string json = JsonUtility.ToJson(new StatsRequest
+        {
+            username = user,
+            coins_earned = coins,
+            deaths_count = deaths
         });
 
         using (UnityWebRequest req = CreateJsonPost(baseUrl + "/update_stats", json))
@@ -149,6 +164,13 @@ public class NetworkManager : MonoBehaviour
 
             if (req.result == UnityWebRequest.Result.Success)
             {
+                var res = JsonUtility.FromJson<StatsUpdateResponse>(req.downloadHandler.text);
+                if (res != null && res.status == "success")
+                {
+                    UserCoins = res.total_coins;
+                    UserDeaths = res.total_deaths;
+                }
+
                 Debug.Log("Stats Synced: " + req.downloadHandler.text);
                 onSuccess?.Invoke();
             }
