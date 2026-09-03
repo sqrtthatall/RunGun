@@ -40,6 +40,21 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+    // ВРЕМЕННЫЙ ТЕСТ: автовход игроком tester
+        if (NetworkManager.Instance != null && string.IsNullOrEmpty(NetworkManager.Instance.CurrentUsername))
+        {
+            NetworkManager.Instance.Register("tester", "12345", () => {
+                NetworkManager.Instance.Login("tester", "12345", res => {
+                    Debug.Log($"Тест сети: Успешный вход! Монеты в базе: {res.coins}, Смерти: {res.deaths}");
+                });
+            }, err => {
+                // Если уже зарегистрирован — сразу входим
+                NetworkManager.Instance.Login("tester", "12345", res => {
+                    Debug.Log($"Тест сети: Успешный вход! Монеты в базе: {res.coins}, Смерти: {res.deaths}");
+                });
+            });
+        }
     }
 
     void Update()
