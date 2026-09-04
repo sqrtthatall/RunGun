@@ -172,9 +172,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab4a1b937986ca49bc0d881677077b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
-  maxForce: 5
-  jumpForce: 5
   anim: {fileID: 0}
+  coinTakeAudio: {fileID: 0}
+  bandageTakeAudio: {fileID: 0}
 --- !u!95 &4729371310493847576
 Animator:
   serializedVersion: 7

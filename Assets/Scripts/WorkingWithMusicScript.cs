@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class WorkingWithMusicScript : MonoBehaviour
 {
+
     public static float MusicVolume = 0.5f;
 
     [Header("Ссылки на компоненты")]
@@ -35,12 +36,10 @@ public class WorkingWithMusicScript : MonoBehaviour
         if (musicSource != null)
         {
             musicSource.volume = MusicVolume;
-            PlayerPrefs.SetFloat("MusicVolume", volume);
-            PlayerPrefs.Save();
         }
     }
 
-    private void OnDestroy()
+    public void OnDestroy()
     {
         // Отписываемся от события при уничтожении объекта, чтобы избежать утечек памяти
         if (musicVolumeSlider != null)

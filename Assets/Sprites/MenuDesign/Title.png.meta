@@ -1,13 +1,22 @@
 fileFormatVersion: 2
-guid: 5fee3c6c9431dbf4093ef74c6119713a
+guid: 14313c71510f1b54fabb29a5bcb8405d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3971807784327630034
-    second: Speaker_on_2_0
+      213: -7352339073622421304
+    second: Title_0
   - first:
-      213: -2568705387188674536
-    second: Speaker_on_2_1
+      213: 578584420991164872
+    second: Title_1
+  - first:
+      213: -2586058674264470982
+    second: Title_2
+  - first:
+      213: -7455755055849233376
+    second: Title_3
+  - first:
+      213: -2920429353955323833
+    second: Title_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +60,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -116,13 +125,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Speaker_on_2_0
+      name: Title_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 28
-        width: 29
-        height: 20
+        x: 1
+        y: 2
+        width: 1070
+        height: 341
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,20 +140,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2dccaf4e222be1730800000000000000
-      internalID: 3971807784327630034
+      spriteID: 8c0d280219e37f990800000000000000
+      internalID: -7352339073622421304
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Speaker_on_2_1
+      name: Title_1
       rect:
         serializedVersion: 2
-        x: 44
-        y: 30
-        width: 6
-        height: 16
+        x: 174
+        y: 312
+        width: 11
+        height: 10
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,8 +162,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 810acf75f002a5cd0800000000000000
-      internalID: -2568705387188674536
+      spriteID: 8c1e0c5277b870800800000000000000
+      internalID: 578584420991164872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Title_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3a062856597c1cd0800000000000000
+      internalID: -2586058674264470982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Title_3
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 104
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 024a8cb6746d78890800000000000000
+      internalID: -7455755055849233376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Title_4
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 0
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7409ed5c9fc8877d0800000000000000
+      internalID: -2920429353955323833
       vertices: []
       indices: 
       edges: []
@@ -163,7 +238,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -173,8 +248,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Speaker_on_2_0: 3971807784327630034
-      Speaker_on_2_1: -2568705387188674536
+      Title_0: -7352339073622421304
+      Title_1: 578584420991164872
+      Title_2: -2586058674264470982
+      Title_3: -7455755055849233376
+      Title_4: -2920429353955323833
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

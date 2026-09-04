@@ -39,11 +39,6 @@ public class PauseScript : MonoBehaviour
         isPaused = true;
     }
 
-    public void Options()
-    {
-
-    }
-
     public void ExitGame()
     {
         Debug.Log("Game closed");
@@ -51,6 +46,4 @@ public class PauseScript : MonoBehaviour
         //Application.Quit();
         UnityEditor.EditorApplication.isPlaying = false;
     }
-
-
 }
