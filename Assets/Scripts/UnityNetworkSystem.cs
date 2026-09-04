@@ -1,99 +1,213 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviour
 {
-    private string baseUrl = "http://localhost:5000";
+    public static NetworkManager Instance;
 
-    [System.Serializable] public class AuthRequest { public string username; public string password; }
-    [System.Serializable] public class StatsRequest { public string username; public int score; public float time; }
+    [SerializeField] private string baseUrl = "http://localhost:5000";
 
-    [System.Serializable] public class LoginResponse { public string status; public int high_score; public float best_time; public string message; }
-    [System.Serializable] public class LeaderboardEntry { public string username; public int score; }
-    [System.Serializable] public class LeaderboardResponse { public string status; public List<LeaderboardEntry> leaderboard; }
+    // Текущий профиль игрока в памяти
+    public string CurrentUsername { get; private set; }
+    public int UserCoins { get; set; }
+    public int UserDeaths { get; set; }
 
+    // DTO модели
+    [Serializable] public class AuthRequest { public string username; public string password; }
+    [Serializable] public class StatsRequest { public string username; public int coins_earned; public int deaths_count; }
 
-    public void Register(string user, string pass) { StartCoroutine(RegisterCoroutine(user, pass)); }
-    public void Login(string user, string pass) { StartCoroutine(LoginCoroutine(user, pass)); }
-    public void SendStats(string user, int score, float time) { StartCoroutine(SendStatsCoroutine(user, score, time)); }
-    public void GetLeaderboard() { StartCoroutine(GetLeaderboardCoroutine()); }
-
-
-
-    private IEnumerator RegisterCoroutine(string user, string pass)
+    [Serializable]
+    public class LoginResponse
     {
-        string json = JsonUtility.ToJson(new AuthRequest { username = user, password = pass });
-        using (UnityWebRequest request = new UnityWebRequest(baseUrl + "/register", "POST"))
+        public string status;
+        public int coins;
+        public int deaths;
+        public string message;
+    }
+
+    [Serializable]
+    public class StatsUpdateResponse
+    {
+        public string status;
+        public int total_coins;
+        public int total_deaths;
+    }
+
+    [Serializable]
+    public class LeaderboardEntry
+    {
+        public string username;
+        public int coins;
+        public int deaths;
+    }
+
+    [Serializable]
+    public class LeaderboardResponse
+    {
+        public string status;
+        public List<LeaderboardEntry> leaderboard;
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
         {
-            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
-
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
-                Debug.Log("Register: " + request.downloadHandler.text);
-            else
-                Debug.LogError("Register Error: " + request.error);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
-    private IEnumerator LoginCoroutine(string user, string pass)
+    public void Register(string user, string pass, Action onSuccess = null, Action<string> onError = null)
+    {
+        StartCoroutine(RegisterCoroutine(user, pass, onSuccess, onError));
+    }
+
+    public void Login(string user, string pass, Action<LoginResponse> onSuccess = null, Action<string> onError = null)
+    {
+        StartCoroutine(LoginCoroutine(user, pass, onSuccess, onError));
+    }
+
+    public void SendProgress(int coinsEarned, int deathsCount, Action onSuccess = null, Action<string> onError = null)
+    {
+        if (string.IsNullOrEmpty(CurrentUsername))
+        {
+            Debug.LogWarning("NetworkManager: Сначала нужно войти в аккаунт!");
+            onError?.Invoke("Not logged in");
+            return;
+        }
+
+        // Локально обновляем баланс сразу, не дожидаясь ответа сервера
+        UserCoins += coinsEarned;
+        UserDeaths += deathsCount;
+
+        StartCoroutine(SendProgressCoroutine(CurrentUsername, coinsEarned, deathsCount, onSuccess, onError));
+    }
+
+    public void GetLeaderboard(Action<List<LeaderboardEntry>> onSuccess = null, Action<string> onError = null)
+    {
+        StartCoroutine(GetLeaderboardCoroutine(onSuccess, onError));
+    }
+
+    private IEnumerator RegisterCoroutine(string user, string pass, Action onSuccess, Action<string> onError)
     {
         string json = JsonUtility.ToJson(new AuthRequest { username = user, password = pass });
-        using (UnityWebRequest request = new UnityWebRequest(baseUrl + "/login", "POST"))
+        using (UnityWebRequest req = CreateJsonPost(baseUrl + "/register", json))
         {
-            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
+            yield return req.SendWebRequest();
 
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
+            if (req.result == UnityWebRequest.Result.Success)
             {
-                LoginResponse response = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
-                if (response.status == "success")
-                    Debug.Log($"Welcome! Your best score: {response.high_score}");
-                else
-                    Debug.LogError("Login failed: " + response.message);
+                Debug.Log("Register Success: " + req.downloadHandler.text);
+                onSuccess?.Invoke();
+            }
+            else
+            {
+                Debug.LogError("Register Error: " + req.downloadHandler.text);
+                onError?.Invoke(req.downloadHandler.text);
             }
         }
     }
 
-    private IEnumerator SendStatsCoroutine(string user, int score, float time)
+    private IEnumerator LoginCoroutine(string user, string pass, Action<LoginResponse> onSuccess, Action<string> onError)
     {
-        string json = JsonUtility.ToJson(new StatsRequest { username = user, score = score, time = time });
-        using (UnityWebRequest request = new UnityWebRequest(baseUrl + "/update_stats", "POST"))
+        string json = JsonUtility.ToJson(new AuthRequest { username = user, password = pass });
+        using (UnityWebRequest req = CreateJsonPost(baseUrl + "/login", json))
         {
-            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
+            yield return req.SendWebRequest();
 
-            yield return request.SendWebRequest();
-            Debug.Log("Stats updated: " + request.downloadHandler.text);
-        }
-    }
-
-    private IEnumerator GetLeaderboardCoroutine()
-    {
-        using (UnityWebRequest request = UnityWebRequest.Get(baseUrl + "/leaderboard"))
-        {
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
+            if (req.result == UnityWebRequest.Result.Success)
             {
-                LeaderboardResponse response = JsonUtility.FromJson<LeaderboardResponse>(request.downloadHandler.text);
-                foreach (var entry in response.leaderboard)
+                LoginResponse res = JsonUtility.FromJson<LoginResponse>(req.downloadHandler.text);
+                if (res.status == "success")
                 {
-                    Debug.Log($"{entry.username}: {entry.score}");
+                    CurrentUsername = user;
+                    UserCoins = res.coins;
+                    UserDeaths = res.deaths;
+
+                    Debug.Log($"Logged in: {user} | Coins: {UserCoins} | Deaths: {UserDeaths}");
+                    onSuccess?.Invoke(res);
+                }
+                else
+                {
+                    Debug.LogError("Login Failed: " + res.message);
+                    onError?.Invoke(res.message);
                 }
             }
+            else
+            {
+                Debug.LogError("Login Error: " + req.error);
+                onError?.Invoke(req.error);
+            }
         }
+    }
+
+    private IEnumerator SendProgressCoroutine(string user, int coins, int deaths, Action onSuccess, Action<string> onError)
+    {
+        string json = JsonUtility.ToJson(new StatsRequest
+        {
+            username = user,
+            coins_earned = coins,
+            deaths_count = deaths
+        });
+
+        using (UnityWebRequest req = CreateJsonPost(baseUrl + "/update_stats", json))
+        {
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.Success)
+            {
+                var res = JsonUtility.FromJson<StatsUpdateResponse>(req.downloadHandler.text);
+                if (res != null && res.status == "success")
+                {
+                    UserCoins = res.total_coins;
+                    UserDeaths = res.total_deaths;
+                }
+
+                Debug.Log("Stats Synced: " + req.downloadHandler.text);
+                onSuccess?.Invoke();
+            }
+            else
+            {
+                Debug.LogError("Stats Error: " + req.error);
+                onError?.Invoke(req.error);
+            }
+        }
+    }
+
+    private IEnumerator GetLeaderboardCoroutine(Action<List<LeaderboardEntry>> onSuccess, Action<string> onError)
+    {
+        using (UnityWebRequest req = UnityWebRequest.Get(baseUrl + "/leaderboard"))
+        {
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.Success)
+            {
+                LeaderboardResponse res = JsonUtility.FromJson<LeaderboardResponse>(req.downloadHandler.text);
+                onSuccess?.Invoke(res.leaderboard);
+            }
+            else
+            {
+                Debug.LogError("Leaderboard Error: " + req.error);
+                onError?.Invoke(req.error);
+            }
+        }
+    }
+
+    private UnityWebRequest CreateJsonPost(string url, string jsonBody)
+    {
+        UnityWebRequest req = new UnityWebRequest(url, "POST");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonBody);
+        req.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        req.downloadHandler = new DownloadHandlerBuffer();
+        req.SetRequestHeader("Content-Type", "application/json");
+        return req;
     }
 }
