@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7a891a938af5b6b4fa2c854e130830dd
+guid: e920b284555bc1848a6b7756210cf2c0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9139357139157944544
-    second: Speaker_on_1_0
+      213: -5249116217530868513
+    second: HandleDesign_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,9 +46,9 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Speaker_on_1_0
+      name: HandleDesign_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 28
-        width: 29
-        height: 20
+        x: 4
+        y: 18
+        width: 469
+        height: 443
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0277f05ba1b7a2180800000000000000
-      internalID: -9139357139157944544
+      spriteID: fdc94557c946727b0800000000000000
+      internalID: -5249116217530868513
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Speaker_on_1_0: -9139357139157944544
+      HandleDesign_0: -5249116217530868513
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

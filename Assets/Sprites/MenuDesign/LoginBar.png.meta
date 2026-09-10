@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7a891a938af5b6b4fa2c854e130830dd
+guid: 26ee2e080ef85774599b9ff0c1d85e0f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9139357139157944544
-    second: Speaker_on_1_0
+      213: 4155788747289001378
+    second: LoginBar_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,9 +46,9 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Speaker_on_1_0
+      name: LoginBar_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 28
-        width: 29
-        height: 20
+        x: 14
+        y: 0
+        width: 1234
+        height: 238
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0277f05ba1b7a2180800000000000000
-      internalID: -9139357139157944544
+      spriteID: 2adf9bbe8d35ca930800000000000000
+      internalID: 4155788747289001378
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Speaker_on_1_0: -9139357139157944544
+      LoginBar_0: 4155788747289001378
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

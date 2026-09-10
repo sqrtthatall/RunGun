@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7a891a938af5b6b4fa2c854e130830dd
+guid: f99572bfe68bc23479abd0d352c00b56
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9139357139157944544
-    second: Speaker_on_1_0
+      213: 317263084915930455
+    second: LoginButton_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Speaker_on_1_0
+      name: LoginButton_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 28
-        width: 29
-        height: 20
+        x: 11
+        y: 0
+        width: 671
+        height: 285
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0277f05ba1b7a2180800000000000000
-      internalID: -9139357139157944544
+      spriteID: 75532c44815276400800000000000000
+      internalID: 317263084915930455
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Speaker_on_1_0: -9139357139157944544
+      LoginButton_0: 317263084915930455
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
