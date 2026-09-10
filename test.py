@@ -96,7 +96,7 @@ def update_stats():
 def leaderboard():
     with get_db() as conn:
         top_users = conn.execute(
-            "SELECT username, coins, deaths FROM users ORDER BY coins DESC LIMIT 10"
+            "SELECT username, coins, deaths FROM users ORDER BY coins DESC LIMIT 7"
         ).fetchall()
 
     board = [{"username": u['username'], "coins": u['coins'], "deaths": u['deaths']} for u in top_users]

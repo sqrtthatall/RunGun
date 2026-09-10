@@ -5514,6 +5514,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7775b6baccc4b0f4da6f4d8d9932a23a, type: 3}
+--- !u!82 &1443878191 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3769916890863346855, guid: 7775b6baccc4b0f4da6f4d8d9932a23a, type: 3}
+  m_PrefabInstance: {fileID: 1443878190}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1469902105
 GameObject:
   m_ObjectHideFlags: 0
@@ -5919,7 +5924,7 @@ PrefabInstance:
     - target: {fileID: 1989509060622691316, guid: d4157a4a450215c4ab091e60f0508e3a, type: 3}
       propertyPath: bandageTakeAudio
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1443878191}
     - target: {fileID: 2026743628696256567, guid: d4157a4a450215c4ab091e60f0508e3a, type: 3}
       propertyPath: m_Material
       value: 
