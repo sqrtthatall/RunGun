@@ -4521,7 +4521,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 30866796135701492, guid: 5d85cb40f395b1a48b890219f84c265b, type: 3}
       propertyPath: nextLevelName
-      value: Education_1
+      value: Level_3
       objectReference: {fileID: 0}
     - target: {fileID: 30866796135701492, guid: 5d85cb40f395b1a48b890219f84c265b, type: 3}
       propertyPath: teleportSound
@@ -6040,7 +6040,7 @@ Transform:
   m_GameObject: {fileID: 1127715695}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.79, y: -4.4, z: 0}
+  m_LocalPosition: {x: 18.02, y: -4.4, z: 0}
   m_LocalScale: {x: 1.8254455, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6270,7 +6270,7 @@ Transform:
   m_GameObject: {fileID: 1190734897}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.274502, y: -4.337175, z: 0}
+  m_LocalPosition: {x: 17.52, y: -4.337175, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7543,7 +7543,7 @@ Transform:
   m_GameObject: {fileID: 1430145597}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.204502, y: -4.337176, z: 0}
+  m_LocalPosition: {x: 18.45, y: -4.337176, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
