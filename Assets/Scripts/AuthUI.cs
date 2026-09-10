@@ -52,6 +52,11 @@ public class AuthUI : MonoBehaviour
                 SetStatus("Успешный вход!");
                 // Переходим на игровой уровень
                 SceneManager.LoadScene(gameSceneName);
+                if (PauseScript.isPaused == true)
+                {
+                    Time.timeScale = 1f;
+                    PauseScript.isPaused = false;
+                }
             },
             error =>
             {
