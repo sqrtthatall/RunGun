@@ -11,6 +11,8 @@ public class AuthUI : MonoBehaviour
     [Header("Кнопки")]
     [SerializeField] private Button loginButton;
     [SerializeField] private Button registerButton;
+    [SerializeField] private Button exitButton;
+    [SerializeField] private Button leaderboardButton;
 
     [Header("Статус / Ошибки")]
     [SerializeField] private Text statusText;
@@ -25,7 +27,8 @@ public class AuthUI : MonoBehaviour
 
         loginButton.onClick.AddListener(OnLoginClicked);
         registerButton.onClick.AddListener(OnRegisterClicked);
-
+        leaderboardButton.onClick.AddListener(OnLeaderboardClicked);
+        exitButton.onClick.AddListener(OnExitClicked);
         SetStatus("");
     }
 
@@ -95,6 +98,17 @@ public class AuthUI : MonoBehaviour
                 SetButtonsInteractable(true);
             }
         );
+    }
+
+    private void OnLeaderboardClicked()
+    {
+        SceneManager.LoadScene("LeaderBoard");
+    }
+    private void OnExitClicked()
+    {
+        UnityEditor.EditorApplication.isPlaying = false;
+        //Раскомментить при builde верхнее удалить
+        //Application.Quit();
     }
 
     private void SetStatus(string message)

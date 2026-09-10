@@ -12,9 +12,6 @@ public class MainMenuScript : MonoBehaviour
 
     public void ExitGame()
     {
-        Debug.Log("Game closed");
-        //Раскомментить при builde
-        //Application.Quit();
-        UnityEditor.EditorApplication.isPlaying = false;
+        SceneManager.LoadScene("Login");
     }
 }

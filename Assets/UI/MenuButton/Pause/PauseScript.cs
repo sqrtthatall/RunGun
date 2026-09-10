@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PauseScript : MonoBehaviour
 {
     public GameObject pauseMenu;
@@ -42,8 +42,9 @@ public class PauseScript : MonoBehaviour
     public void ExitGame()
     {
         Debug.Log("Game closed");
+        SceneManager.LoadScene("Login");
         //Раскомментить при builde
         //Application.Quit();
-        UnityEditor.EditorApplication.isPlaying = false;
+        //UnityEditor.EditorApplication.isPlaying = false;
     }
 }
